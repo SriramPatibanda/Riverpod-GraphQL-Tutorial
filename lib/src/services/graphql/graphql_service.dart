@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:riverpod_graphql/src/constants/strings.dart';
 import 'package:riverpod_graphql/src/models/pokemon.dart';
+import 'package:riverpod_graphql/src/services/graphql/pokemon_names.dart';
 import 'package:riverpod_graphql/src/services/graphql/queries.dart';
 
 /// An abstract class which contains all the required APIs for the app.
@@ -9,7 +10,7 @@ abstract class GraphQLApi {
   /// Initialises GraphQL client
   Future<void> initGraphQL();
 
-  Future<Pokemon> getPokemon(String pokemon);
+  Future<Pokemon> getPokemon();
 }
 
 /// A service used for all the API operations.
@@ -28,7 +29,8 @@ class GraphQLService extends GraphQLApi {
   }
 
   @override
-  Future<Pokemon> getPokemon(String pokemon) async {
+  Future<Pokemon> getPokemon() async {
+    final pokemon = RandomPokemon().getRandomPokemon();
     final options = QueryOptions(
         document: gql(Queries.getPokemon),
         variables: <String, String>{'Pokemon': pokemon});
@@ -37,6 +39,8 @@ class GraphQLService extends GraphQLApi {
       final result = await _client.query(options);
 
       final pokemon = Pokemon.fromJson(result.data!);
+
+      debugPrint(pokemon.species);
 
       return pokemon;
     } catch (e) {

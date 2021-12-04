@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "Pokemon Trivia")
+set(BINARY_NAME "PokemonTrivia")
 set(APPLICATION_ID "com.sriram.riverpod_graphql")
 
 cmake_policy(SET CMP0063 NEW)
